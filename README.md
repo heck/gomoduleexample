@@ -37,20 +37,22 @@ func main() {
     myextpkg.Run()
 }
 EOF
-$ go build ./extcmd.go  # `go build` will install it under $GOPATH if it's not there already
+$ go build ./extcmd.go  # `go build` will install `gomoduleexample` under `$GOPATH/pkg` (if it's not there already)
 $ ./extcmd              # prints "Hello, external example!"
 ```
 
 # how to recreate this example
 
 ```bash
+# prep the development directory
 $ mkdir path/to/gomoduleexample
 $ cd path/to/gomoduleexample
 $ git init
-$ go mod init github.com/heck/gomoduleexample
+$ go mod init github.com/heck/gomoduleexample  # creates the `go.mod` file
 $ cat > gomoduleexample.go << EOF
 package gomoduleexample
 EOF
+# create the directory tree
 $ mkdir cmd internal
 $ mkdir cmd/mycmd internal/myintpkg myextpkg
 # create the source files
