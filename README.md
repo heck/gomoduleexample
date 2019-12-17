@@ -76,6 +76,15 @@ func main() {
 EOF
 ```
 
+## build and run the `mycmd` executable
+
+```bash
+$ go build ./cmd/mycmd
+$ ./mycmd
+Hello, internal example!
+Hello, external example!
+```
+
 # how to setup a Mac
 
 ```bash
