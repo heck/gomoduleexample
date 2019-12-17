@@ -6,6 +6,13 @@
     - I don't like it because it pollutes import statements: `import github/heck/gomoduleexample/pkg/myextpkg`
 * `gomoduleexample.go` does not have to be the same name as the repo, but this seems like a common convention
 * `gomoduleexample.go`'s line `package gomoduleexample` is, I believe, arbitrary.  I think it can be any name you wish (doesn't have to be the repo name)
+    - This naming especially makes sense if `gomoduleexample.go` has a `func init() { ... }` defined (called automatically at startup) that inits module stuff
+* `myextpkg/myextpkg.go` does not have to have the same name as the package
+    - This naming especially makes sense if `myextpkg.go` has a `func init() { ... }` defined (called automatically at startup) that inits package stuff
+* `internal/myintpkg/myintpkg.go` does not have to have the same name as the package
+    - This naming especially makes sense if `myintpkg.go` has a `func init() { ... }` defined (called automatically at startup) that inits package stuff
+* `myextpkg` and `internal/myintpkg` can have any number of `.go` files
+* `myextpkg` and `internal/myintpkg` can have any number of subdirectories (which would then be submodules. e.g.: `github.com/heck/gomoduleexample/myextpkg/subpkg`)
 
 For an exhaustive example of a Go project structure see: https://github.com/golang-standards/project-layout
 
