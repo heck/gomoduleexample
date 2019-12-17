@@ -1,6 +1,18 @@
+# Noteworthy
+
+* `internal` is a Go tool keyword.  Anything under a directory named `internal` (anywhere in the code tree) is visible only to code within the module
+* `cmd` as the directory to put all executables is arbitrary, though it is a common Golang convention
+* This repo ignores a semi-common convention of putting all packages under a `pkg` directory
+    - I don't like it because it pollutes import statements: `import github/heck/gomoduleexample/pkg/myextpkg`
+* `gomoduleexample.go` does not have to be the same name as the repo, but this seems like a common convention
+* `gomoduleexample.go`'s line `package gomoduleexample` is, I believe, arbitrary.  I think it can be any name you wish (doesn't have to be the repo name)
+
+For an exhaustive example of a Go project structure see: https://github.com/golang-standards/project-layout
+
 # build
 
 ```bash
+$ cd path/to/gomoduleexample
 $ go build ./...     # build recursively (NO OUTPUT - just verifies build works). -n => dry run print of build steps
 $ go build -o path/to/output ./path/to/cmd/dir  # build a command/executable.  w/o -o writes to pwd
 $ env GOOS=windows GOARCH=amd64 go build ./path/to/cmd/dir  # build a command/executable for a target OS/CPU (here Windows/AMD64)
@@ -9,10 +21,10 @@ $ go clean -i ./...  # cleans out results of install (-i).  -n => dry run print 
 $ git tag -a v0.1.0 -m "tag comment"  # set module version
 ```
 
-# usage
+# use this module within an (external/3rd party) executable
 
 ```bash
-$ cat > mycmd.go << EOF
+$ cat > extcmd.go << EOF
 package main
 
 // // The following import fails because myintpkg visible only by module members
@@ -25,8 +37,8 @@ func main() {
     myextpkg.Run()
 }
 EOF
-$ go build ./mycmd.go
-$ ./mycmd    # prints "Hello, external example!"
+$ go build ./extcmd.go  # `go build` will install it under $GOPATH if it's not there already
+$ ./extcmd              # prints "Hello, external example!"
 ```
 
 # how to recreate this example
@@ -79,6 +91,7 @@ EOF
 ## build and run the `mycmd` executable
 
 ```bash
+$ cd path/to/gomoduleexample
 $ go build ./cmd/mycmd
 $ ./mycmd
 Hello, internal example!
