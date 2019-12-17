@@ -15,14 +15,18 @@ $ git tag -a v0.1.0 -m "tag comment"  # set module version
 $ cat > mycmd.go << EOF
 package main
 
+// // The following import fails because myintpkg visible only by module members
+// import "github.com/heck/gomoduleexample/internal/myintpkg"
 import "github.com/heck/gomoduleexample/myextpkg"
 
 func main() {
+    // // myintpkg isn't visible outside of module, so this isn't possible:
+    // myintpkg.Run()
     myextpkg.Run()
 }
 EOF
 $ go build ./mycmd.go
-$ ./mycmd
+$ ./mycmd    # prints "Hello, external example!"
 ```
 
 # how to recreate this example
@@ -45,7 +49,7 @@ import "fmt"
 
 // Run func
 func Run() {
-	fmt.Printf("Hello, internal example!\n")
+    fmt.Printf("Hello, internal example!\n")
 }
 EOF
 $ cat > myextpkg/myextpkg.go << EOF
@@ -55,7 +59,7 @@ import "fmt"
 
 // Run func
 func Run() {
-	fmt.Printf("Hello, external example!\n")
+    fmt.Printf("Hello, external example!\n")
 }
 EOF
 $ cat > cmd/mycmd/main.go << EOF
@@ -66,7 +70,7 @@ import "github.com/heck/gomoduleexample/myextpkg"
 
 // Main func
 func main() {
-	myintpkg.Run()
+    myintpkg.Run()
     myextpkg.Run()
 }
 EOF
