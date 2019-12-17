@@ -115,7 +115,7 @@ $ brew install go
 $ cat >> ~/.zshrc << EOF
 # Set the Go workspace to $HOME/go
 export GOPATH="$HOME/go"
-exprot PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$GOPATH/bin"
 EOF
 $ mkdir ~/go
 $ cd ~/go
