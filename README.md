@@ -22,6 +22,7 @@ For an exhaustive example of a Go project structure see: https://github.com/gola
 $ cd path/to/gomoduleexample
 $ go build ./...     # build recursively (NO OUTPUT - just verifies build works). -n => dry run print of build steps
 $ go build -o path/to/output ./path/to/cmd/dir  # build a command/executable.  w/o -o writes to pwd
+$ go build -o . ./cmd/*  # build all commands and put resultant executables in the current directory
 $ env GOOS=windows GOARCH=amd64 go build ./path/to/cmd/dir  # build a command/executable for a target OS/CPU (here Windows/AMD64)
 $ go install ./...   # build and copy results to GOPATH - includes executables and packages
 $ go clean -i ./...  # cleans out results of install (-i).  -n => dry run print of files affected
@@ -72,14 +73,25 @@ import "fmt"
 func Run() {
     fmt.Printf("Hello, internal example!\n")
 }
+
+// MyInternalFunc func
+func MyInternalFunc() {
+    fmt.Println("Hello, internal function called from external function")
+}
+
 EOF
 $ cat > myextpkg/myextpkg.go << EOF
 package myextpkg
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/heck/gomoduleexample/internal/myintpkg"
+)
 
 // Run func
 func Run() {
+    myintpkg.MyInternalFunc()
     fmt.Printf("Hello, external example!\n")
 }
 EOF

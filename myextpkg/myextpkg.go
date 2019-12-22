@@ -1,8 +1,13 @@
 package myextpkg
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/heck/gomoduleexample/internal/myintpkg"
+)
 
 // Run func
 func Run() {
-    fmt.Printf("Hello, external example!\n")
+	myintpkg.MyInternalFunc()
+	fmt.Printf("Hello, external example!\n")
 }
